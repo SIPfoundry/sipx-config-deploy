@@ -1,0 +1,3 @@
+[submodule "sipXconfig"]
+	path = sipXconfig
+	url = https://github.com/sipfoundrydev/sipXconfig

@@ -1,0 +1,25 @@
+box: sipfoundrydev/sipx-docker-router-libs:latest
+no-response-timeout: 10
+command-timeout: 120
+build:
+  steps:
+    - script: 
+        name: Create RPMS
+        code: |
+          yum update -y
+          git submodule update --init --recursive
+          make rpm
+deploy:
+  steps:
+    - add-ssh-key:
+        keyname: STAGE_KEY
+        host: stage.sipfoundry.org
+    - script: 
+        name: Deploying RPMS
+        code: |
+          make deploy
+    - script: 
+      name: Trigger DockerHub build
+      code: |
+        curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/sipfoundrydev/sipx-docker-config-libs/trigger/${DOCKERHUB_TRIGGER_TOKEN}/
+
