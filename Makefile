@@ -18,8 +18,6 @@ MODULES = \
 	sipXcommons \
 	sipXcdr \
 	sipXconfig \
-	sipXpolycom \
-	sipXacccode \
 	sipXprovision \
 	sipXrest \
 	sipXcdrLog \
@@ -101,6 +99,6 @@ prepare-repo:
                         
 docker-build-local:
 	docker pull sipfoundrydev/sipx-docker-router-libs; \
-	docker run -t -p 80 --rm --name sipx-config-builder  -v `pwd`:/BUILD -v ${WWWROOT}:/WWWROOT sipfoundrydev/sipx-docker-router-libs \
+	docker run -t --rm --name sipx-config-builder  -v `pwd`:/BUILD -v ${WWWROOT}:/WWWROOT sipfoundrydev/sipx-docker-router-libs \
 	/bin/sh -c "cd /BUILD && make prepare-repo && yum update -y && make"
 
